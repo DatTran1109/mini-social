@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "843725287378",
+    "project_id": "mini-social-app-79ac4",
+    "storage_bucket": "mini-social-app-79ac4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843725287378:android:08e8c1f30f6a95c758620b",
+        "android_client_info": {
+          "package_name": "com.example.mini_social"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDybv4e4ZR7qYYqIWuxgnN8bdFa6wY8QiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843725287378:android:c801c3e5eb94cfea58620b",
+        "android_client_info": {
+          "package_name": "com.example.mini_social_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDybv4e4ZR7qYYqIWuxgnN8bdFa6wY8QiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

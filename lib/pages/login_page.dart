@@ -17,26 +17,17 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordTextController = TextEditingController();
 
   void signIn() async {
-    if (_emailTextController.text == '' || _passwordTextController.text == '') {
+    if (_emailTextController.text.trim() == '' ||
+        _passwordTextController.text.trim() == '') {
       showMessage('Email and password required');
       return;
     }
 
-    showDialog(
-      context: context,
-      builder: (context) => Center(
-        child: Lottie.asset('assets/animations/loading.json'),
-      ),
-    );
-
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: _emailTextController.text,
-              password: _passwordTextController.text)
-          .whenComplete(() => Navigator.pop(context));
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailTextController.text.trim(),
+          password: _passwordTextController.text.trim());
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
       showMessage(e.code);
     }
   }
@@ -45,12 +36,11 @@ class _LoginPageState extends State<LoginPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Center(
-          child: Text(
-            message,
-            style: const TextStyle(
-                color: Colors.red, fontWeight: FontWeight.w400, fontSize: 18),
-          ),
+        content: Text(
+          message,
+          style: const TextStyle(
+              color: Colors.red, fontWeight: FontWeight.w400, fontSize: 18),
+          textAlign: TextAlign.center,
         ),
       ),
     );

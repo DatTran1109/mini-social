@@ -19,41 +19,40 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordConfirmTextController = TextEditingController();
 
   void signUp() async {
-    if (_emailTextController.text == '' ||
-        _passwordTextController.text == '' ||
-        _passwordConfirmTextController.text == '') {
+    if (_emailTextController.text.trim() == '' ||
+        _passwordTextController.text.trim() == '' ||
+        _passwordConfirmTextController.text.trim() == '') {
       showMessage('All fields are required');
       return;
     }
 
-    if (_passwordTextController.text != _passwordConfirmTextController.text) {
-      showMessage('Password confirmation doesn\'t match');
+    if (RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+            .hasMatch(_emailTextController.text.trim()) ==
+        false) {
+      showMessage('Email is not valid');
       return;
     }
 
-    showDialog(
-      context: context,
-      builder: (context) => Center(
-        child: Lottie.asset('assets/animations/loading.json'),
-      ),
-    );
+    if (_passwordTextController.text.trim() !=
+        _passwordConfirmTextController.text.trim()) {
+      showMessage('Password confirmation does not match');
+      return;
+    }
 
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: _emailTextController.text,
-              password: _passwordTextController.text)
-          .whenComplete(() => Navigator.pop(context));
+              email: _emailTextController.text.trim(),
+              password: _passwordTextController.text.trim());
 
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(userCredential.user!.email)
           .set({
-        'username': _emailTextController.text.split('@')[0],
+        'username': _emailTextController.text.trim().split('@')[0],
         'bio': 'Empty bio..'
       });
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
       showMessage(e.code);
     }
   }
@@ -62,12 +61,11 @@ class _RegisterPageState extends State<RegisterPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Center(
-          child: Text(
-            message,
-            style: const TextStyle(
-                color: Colors.red, fontWeight: FontWeight.w400, fontSize: 18),
-          ),
+        content: Text(
+          message,
+          style: const TextStyle(
+              color: Colors.red, fontWeight: FontWeight.w400, fontSize: 18),
+          textAlign: TextAlign.center,
         ),
       ),
     );

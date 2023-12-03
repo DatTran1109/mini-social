@@ -16,6 +16,20 @@ class _ProfilePageState extends State<ProfilePage> {
   final userCollection = FirebaseFirestore.instance.collection('Users');
   final _controller = TextEditingController();
 
+  void showMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Text(
+          message,
+          style: const TextStyle(
+              color: Colors.red, fontWeight: FontWeight.w400, fontSize: 18),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
   void editField(String field) {
     showDialog(
         context: context,
@@ -33,11 +47,14 @@ class _ProfilePageState extends State<ProfilePage> {
     if (_controller.text.trim().isNotEmpty) {
       await userCollection
           .doc(_currentUser.email)
-          .update({field: _controller.text.trim()});
+          .update({field: _controller.text.trim()}).whenComplete(
+              () => Navigator.pop(context));
 
       _controller.clear();
+    } else {
+      _controller.clear();
+      showMessage('Field is empty, please enter something');
     }
-    Navigator.pop(context);
   }
 
   @override
